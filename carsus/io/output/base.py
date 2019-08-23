@@ -32,7 +32,10 @@ class TARDISAtomData:
         Dump all attributes into an HDF5 file
     """
 
-    def __init__(self, gfall_reader, ionization_energies, ions,
+    def __init__(self, gfall_reader,
+                 ionization_energies, ions,
+                 chianti_reader=None,
+                 chianti_ions=None,
                  lines_loggf_threshold=-3,
                  levels_metastable_loggf_threshold=-3):
 
@@ -48,12 +51,20 @@ class TARDISAtomData:
         self.ionization_energies = ionization_energies.base
         self.ground_levels = ionization_energies.get_ground_levels()
 
-        self.levels_all = self._get_all_levels_data().reset_index()
-        self.lines_all = self._get_all_lines_data(self.levels_all)
+        if chianti_ions is not None:
+            self.chianti_ions = parse_selected_species(chianti_ions)
 
-        self._create_levels_lines(**self.levels_lines_param)
-        self._create_macro_atom()
-        self._create_macro_atom_references()
+        else:
+            self.chianti_ions = []
+
+        self.chianti_reader = chianti_reader
+
+        self.levels_all = self._get_all_levels_data().reset_index()
+        # self.lines_all = self._get_all_lines_data(self.levels_all)
+
+        # self._create_levels_lines(**self.levels_lines_param)
+        # self._create_macro_atom()
+        # self._create_macro_atom_references()
 
     @staticmethod
     def _create_artificial_fully_ionized(levels):
@@ -100,21 +111,50 @@ class TARDISAtomData:
     def _get_all_levels_data(self):
         """ Returns the same output than `AtomData._get_all_levels_data()` """
         gf = self.gfall_reader
-        gf.levels['g'] = 2*gf.levels['j'] + 1
-        gf.levels['g'] = gf.levels['g'].map(np.int)
+        ch = self.chianti_reader
 
-        ions_df = pd.DataFrame.from_records(
-            self.ions, columns=["atomic_number", "ion_charge"])
-        ions_df = ions_df.set_index(['atomic_number', 'ion_charge'])
-        levels = gf.levels.reset_index().join(ions_df, how="inner",
-                                              on=["atomic_number",
-                                                  "ion_charge"]).\
-            set_index(["atomic_number", "ion_charge"])
+        gf_list = []
+        for ion in self.ions:
+            try:
+                df = gf.levels.loc[ion].copy()
+
+            except (KeyError, TypeError):
+                continue
+
+            # Do we need this?
+            df['atomic_number'] = ion[0]
+            df['ion_number'] = ion[1]
+
+            df['source'] = 'gfall'
+            gf_list.append(df)
+
+        ch_list = []
+        ch_ions = []
+        for ion in self.chianti_ions:
+            try:
+                df = ch.levels.loc[ion].copy()
+                df['source'] = 'chianti'
+                # Save for later use the selected AND existing
+                # ions in Chianti.
+                ch_ions.append(ion)
+
+            except (KeyError, TypeError):
+                continue
+
+            df['atomic_number'] = ion[0]
+            df['ion_number'] = ion[1]
+            ch_list.append(df)
+
+        # Chianti levels are appended a the end of GFALL levels
+        df_list = gf_list + ch_list
+
+        levels = pd.concat(df_list, sort=True)
+        levels['g'] = 2*levels['j'] + 1
+        levels['g'] = levels['g'].map(np.int)
         levels = levels.drop(columns=['j', 'label', 'method'])
-        levels['level_id'] = range(1, len(levels)+1)
-        levels = levels.reset_index().reset_index(drop=True)
-        levels = levels.rename(columns={'ion_charge': 'ion_number'})
-        levels = levels[['atomic_number', 'ion_number', 'g', 'energy']]
+        levels = levels.reset_index(drop=True)
+        levels = levels[['atomic_number',
+                         'ion_number', 'g', 'energy', 'source']]
 
         levels['energy'] = levels['energy'].apply(lambda x: x*u.Unit('cm-1'))
         levels['energy'] = levels['energy'].apply(
@@ -124,7 +164,7 @@ class TARDISAtomData:
         ground_levels = self.ground_levels
         ground_levels.rename(
             columns={'ion_charge': 'ion_number'}, inplace=True)
-
+        ground_levels['source'] = 'nist'
         # Fixes Ar II duplicated ground level. For Kurucz, ground state
         # has g=2, for NIST has g=4. We keep Kurucz.
         mask = (ground_levels['atomic_number'] == 18) & (
@@ -134,19 +174,35 @@ class TARDISAtomData:
         levels = pd.concat([ground_levels, levels], sort=True)
         levels['level_id'] = range(1, len(levels)+1)
         levels = levels.set_index('level_id')
-        levels = levels.drop_duplicates(keep='last')
+        levels = levels.drop_duplicates(
+            subset=['atomic_number', 'ion_number', 'g', 'energy'], keep='last')
+
+        # We keep only Chianti levels for the selected ions
+        if ch_ions:
+            for ion in ch_ions:
+                mask = (levels['source'] == 'gfall') & (
+                    levels['atomic_number'] == ion[0]) & (
+                        levels['ion_number'] == ion[1])
+                levels.drop(levels[mask].index, inplace=True)
+
+        levels = levels.drop(columns=['source'])
+        levels = levels[['atomic_number', 'ion_number', 'g', 'energy']]
 
         return levels
 
     def _get_all_lines_data(self, levels):
         """ Returns the same output than `AtomData._get_all_lines_data()` """
         gf = self.gfall_reader
+        ch = self.chianti_reader
+
         df_list = []
-
         for ion in self.ions:
-
             try:
-                df = gf.lines.loc[ion]
+                if ion in self.chianti_ions:
+                    df = ch.lines.loc[ion]
+
+                else:
+                    df = gf.lines.loc[ion]
 
             except (KeyError, TypeError):
                 continue
