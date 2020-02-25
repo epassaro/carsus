@@ -2,6 +2,7 @@ import re, logging
 
 import numpy as np
 import pandas as pd
+import dask.dataframe as dd
 
 from astropy import units as u
 from sqlalchemy import and_
@@ -74,7 +75,10 @@ class GFALLReader(object):
     @property
     def gfall_raw(self):
         if self._gfall_raw is None:
-            self._gfall_raw = self.read_gfall_raw()
+            if self.fname.endswith(('.h5', 'hdf', 'hdf5')):
+                self._gfall_raw = self.read_gfall_hdf()
+            else:
+                self._gfall_raw = self.read_gfall_raw()
         return self._gfall_raw
 
     @property
@@ -134,6 +138,17 @@ class GFALLReader(object):
         #remove empty lines
         gfall = gfall[~gfall.isnull().all(axis=1)].reset_index(drop=True)
 
+        return gfall
+
+    def read_gfall_hdf(self, fname=None):
+        
+        if fname is None:
+            fname = self.fname
+
+        logger.info('Loading GFALL {0}'.format(fname))
+
+        gfall = dd.read_hdf(self.fname, key='/gfall_raw')
+        gfall = gfall.compute(scheduler='threads')
         return gfall
 
     def parse_gfall(self, gfall_raw=None):
@@ -315,7 +330,7 @@ class GFALLReader(object):
 
         return lines
 
-    def to_hdf(self, fname, key='lines', raw=True):
+    def to_hdf(self, fname='gfall.h5', raw=True, format='table'):
         """Dump the `base` attribute into an HDF5 file
 
         Parameters
@@ -327,10 +342,10 @@ class GFALLReader(object):
         """
         with pd.HDFStore(fname, 'a') as f:
             if raw:
-                f.put(key, self.gfall_raw)
+                f.put('/gfall_raw', self.gfall_raw, format=format)
             
             else:
-                f.put(key, self.gfall)
+                f.put('gfall', self.gfall, format=format)
 
 
 class GFALLIngester(object):
