@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Quickstart for Carsus &mdash; Carsus v</title>
+  <title>Quickstart for Carsus &mdash; Carsus v0.1.dev650</title>
   
 
   
@@ -67,6 +67,10 @@
           
             
             
+              <div class="version">
+                0.1.dev650
+              </div>
+            
           
 
           
@@ -92,14 +96,17 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart for Carsus</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Get-familiar-with-Carsus-notation">Get familiar with Carsus notation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Initialization-and-imports">Initialization and imports</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Atomic-weights-and-ionization-energies">Atomic weights and ionization energies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Levels-and-lines">Levels and lines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Levels,-lines-and-collisions">Levels, lines and collisions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#GFALL">GFALL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#CHIANTI">CHIANTI</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#Zeta-data">Zeta data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Output-HDF5-files">Output HDF5 files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Save-to-HDF5">Save to HDF5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Reproducibility-and-metadata">Reproducibility and metadata</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="io/datasets.html">Datasets</a></li>
@@ -427,52 +434,30 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Quickstart-for-Carsus">
 <h1>Quickstart for Carsus<a class="headerlink" href="#Quickstart-for-Carsus" title="Permalink to this headline">¶</a></h1>
+<p>In this guide you will learn how to create an atomic file suitable for <a class="reference external" href="https://github.com/tardis-sn/tardis">TARDIS</a>.</p>
+<div class="section" id="Get-familiar-with-Carsus-notation">
+<h2>Get familiar with Carsus notation<a class="headerlink" href="#Get-familiar-with-Carsus-notation" title="Permalink to this headline">¶</a></h2>
+<p>The first thing you should learn about Carsus is its notation:</p>
+<ul class="simple">
+<li><p><strong>Carsus uses ‘0’ for neutral elements.</strong> <code class="docutils literal notranslate"><span class="pre">Si</span> <span class="pre">0</span></code> is equivalent to <span class="math notranslate nohighlight">\(\text{Si I}\)</span>, <code class="docutils literal notranslate"><span class="pre">Si</span> <span class="pre">1</span></code> to <span class="math notranslate nohighlight">\(\text{Si II}\)</span>, etc.</p></li>
+<li><p><strong>Use a dash to grab intervals of consectutive elements or species.</strong> <code class="docutils literal notranslate"><span class="pre">H-He</span></code> selects <span class="math notranslate nohighlight">\(\text{H I}\)</span> and <span class="math notranslate nohighlight">\(\text{H II}\)</span> plus <span class="math notranslate nohighlight">\(\text{He I}\)</span>, <span class="math notranslate nohighlight">\(\text{He II}\)</span> and <span class="math notranslate nohighlight">\(\text{He III}\)</span>, while <code class="docutils literal notranslate"><span class="pre">C</span> <span class="pre">0-2</span></code> selects <span class="math notranslate nohighlight">\(\text{C I}\)</span>, <span class="math notranslate nohighlight">\(\text{C II}\)</span> and <span class="math notranslate nohighlight">\(\text{C III}\)</span>.</p></li>
+<li><p><strong>Use a comma to grab non-consecutive species.</strong> <code class="docutils literal notranslate"><span class="pre">Si</span> <span class="pre">0,</span> <span class="pre">2</span></code> selects <span class="math notranslate nohighlight">\(\text{Si I}\)</span> and <span class="math notranslate nohighlight">\(\text{Si III}\)</span>.</p></li>
+<li><p><strong>Use a semicolon to grab non-consecutive elements.</strong> <code class="docutils literal notranslate"><span class="pre">H;</span> <span class="pre">Li</span></code> selects <span class="math notranslate nohighlight">\(\text{H I}\)</span> and <span class="math notranslate nohighlight">\(\text{H II}\)</span> plus <span class="math notranslate nohighlight">\(\text{Li I}\)</span>, <span class="math notranslate nohighlight">\(\text{Li II}\)</span>, <span class="math notranslate nohighlight">\(\text{Li III}\)</span> and <span class="math notranslate nohighlight">\(\text{Li IV}\)</span>.</p></li>
+<li><p><strong>Finally, mix all the above syntax as needed.</strong> For example, <code class="docutils literal notranslate"><span class="pre">H;</span> <span class="pre">C-Si;</span> <span class="pre">Fe</span> <span class="pre">1,3</span></code>.</p></li>
+</ul>
+</div>
 <div class="section" id="Initialization-and-imports">
 <h2>Initialization and imports<a class="headerlink" href="#Initialization-and-imports" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">carsus</span>
-<span class="kn">from</span> <span class="nn">carsus.io.nist</span> <span class="kn">import</span> <span class="n">NISTWeightsComp</span><span class="p">,</span> <span class="n">NISTIonizationEnergies</span>
+<span></span><span class="kn">from</span> <span class="nn">carsus.io.nist</span> <span class="kn">import</span> <span class="n">NISTWeightsComp</span><span class="p">,</span> <span class="n">NISTIonizationEnergies</span>
 <span class="kn">from</span> <span class="nn">carsus.io.kurucz</span> <span class="kn">import</span> <span class="n">GFALLReader</span>
 <span class="kn">from</span> <span class="nn">carsus.io.zeta</span> <span class="kn">import</span> <span class="n">KnoxLongZeta</span>
+<span class="kn">from</span> <span class="nn">carsus.io.chianti_</span> <span class="kn">import</span> <span class="n">ChiantiReader</span>
 <span class="kn">from</span> <span class="nn">carsus.io.output</span> <span class="kn">import</span> <span class="n">TARDISAtomData</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">CARSUS_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">carsus</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Choose an output filename</span>
-<span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;kurucz_H-Zn.h5&#39;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="Atomic-weights-and-ionization-energies">
-<h2>Atomic weights and ionization energies<a class="headerlink" href="#Atomic-weights-and-ionization-energies" title="Permalink to this headline">¶</a></h2>
-<p>Get atomic weights and ionization energies from NIST. For example, to choose all elements from <code class="docutils literal notranslate"><span class="pre">H</span></code> to <code class="docutils literal notranslate"><span class="pre">Zn</span></code>:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">atomic_weights</span> <span class="o">=</span> <span class="n">NISTWeightsComp</span><span class="p">(</span><span class="s1">&#39;H-Zn&#39;</span><span class="p">)</span>
-<span class="n">ionization_energies</span> <span class="o">=</span> <span class="n">NISTIonizationEnergies</span><span class="p">(</span><span class="s1">&#39;H-Zn&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -481,61 +466,149 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Downloading data from the NIST Atomic Weights and Isotopic Compositions database.
-Downloading ionization energies from the NIST Atomic Spectra Database.
+ ChiantiPy version 0.8.4
+ found PyQt5 widgets
+ using PyQt5 widgets
 </pre></div></div>
 </div>
-<p>Remember <em>Carsus</em> allows you to pick ions in many ways!</p>
-<ul class="simple">
-<li><p><strong>Grab only some species:</strong></p></li>
-</ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ionization_energies</span> <span class="o">=</span> <span class="n">NISTIonizationEnergies</span><span class="p">(</span><span class="s1">&#39;C 2-3&#39;</span><span class="p">)</span>
+</div>
+<div class="section" id="Atomic-weights-and-ionization-energies">
+<h2>Atomic weights and ionization energies<a class="headerlink" href="#Atomic-weights-and-ionization-energies" title="Permalink to this headline">¶</a></h2>
+<p>Get atomic weights and ionization energies from NIST.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<ul class="simple">
-<li><p><strong>Non consecutive ions:</strong></p></li>
-</ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ionization_energies</span> <span class="o">=</span> <span class="n">NISTIonizationEnergies</span><span class="p">(</span><span class="s1">&#39;C, O, Si&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">atomic_weights</span> <span class="o">=</span> <span class="n">NISTWeightsComp</span><span class="p">()</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p><strong>A mix of all above:</strong></p></li>
-</ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ionization_energies</span> <span class="o">=</span> <span class="n">NISTIonizationEnergies</span><span class="p">(</span><span class="s1">&#39;H, C 1-2, Ar-Zn&#39;</span><span class="p">)</span>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[<span class="ansi-bold">carsus.io.nist.weightscomp</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>] - Downloading data from the NIST Atomic Weights and Isotopic Compositions Database. (<span class="ansi-bold">weightscomp.py</span>:49)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<p>Once you are done, save data to the HDF5 output.</p>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">ionization_energies</span> <span class="o">=</span> <span class="n">NISTIonizationEnergies</span><span class="p">(</span><span class="s1">&#39;H-Zn&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[<span class="ansi-bold"> carsus.io.nist.ionization</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>] - Downloading ionization energies from the NIST Atomic Spectra Database. (<span class="ansi-bold">ionization.py</span>:65)
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Levels,-lines-and-collisions">
+<h2>Levels, lines and collisions<a class="headerlink" href="#Levels,-lines-and-collisions" title="Permalink to this headline">¶</a></h2>
+<p>Currently, Carsus supports two sources of energy levels and transition lines: the Robert Kurucz’s line list (GFALL) and the Chianti Database.</p>
+<div class="section" id="GFALL">
+<h3>GFALL<a class="headerlink" href="#GFALL" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p><strong>NOTE:</strong> Creating a <code class="docutils literal notranslate"><span class="pre">GFALLReader</span></code> instance is <strong>required</strong>.</p>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">gfall_reader</span> <span class="o">=</span> <span class="n">GFALLReader</span><span class="p">(</span><span class="s1">&#39;H-Zn&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[<span class="ansi-bold">    carsus.io.kurucz.gfall</span>][<span class="ansi-yellow-intense-fg ansi-bold">WARNING</span>] - A specific combination to identify unique levels from GFALL data has not been given. Defaulting to [&#34;energy&#34;, &#34;j&#34;]. (<span class="ansi-bold">gfall.py</span>:86)
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="CHIANTI">
+<h3>CHIANTI<a class="headerlink" href="#CHIANTI" title="Permalink to this headline">¶</a></h3>
+<p>The Chianti Database is also a source of collisional strengths.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">chianti_reader</span> <span class="o">=</span> <span class="n">ChiantiReader</span><span class="p">(</span><span class="s1">&#39;H-He&#39;</span><span class="p">,</span> <span class="n">collisions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>By default <code class="docutils literal notranslate"><span class="pre">priority</span></code> parameter is set to <code class="docutils literal notranslate"><span class="pre">10</span></code>. Increase this value if you want to keep Chianti levels and lines over GFALL.</p>
+</div>
+</div>
+<div class="section" id="Zeta-data">
+<h2>Zeta data<a class="headerlink" href="#Zeta-data" title="Permalink to this headline">¶</a></h2>
+<p>Adding Knox Long’s ground state recombinations fractions (<span class="math notranslate nohighlight">\(\zeta\)</span>) is straightforward.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">atomic_weights</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
-<span class="n">ionization_energies</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+<span></span><span class="n">zeta_data</span> <span class="o">=</span> <span class="n">KnoxLongZeta</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="section" id="Levels-and-lines">
-<h2>Levels and lines<a class="headerlink" href="#Levels-and-lines" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="GFALL">
-<h3>GFALL<a class="headerlink" href="#GFALL" title="Permalink to this headline">¶</a></h3>
-<p>Download <code class="docutils literal notranslate"><span class="pre">gfall.dat</span></code> and create a <code class="docutils literal notranslate"><span class="pre">gfall_reader</span></code> instance:</p>
-<div class="nbinput nblast docutils container">
+<div class="section" id="Save-to-HDF5">
+<h2>Save to HDF5<a class="headerlink" href="#Save-to-HDF5" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>wget -q http://kurucz.harvard.edu/linelists/gfall/gfall.dat
+<span></span><span class="n">atom_data</span> <span class="o">=</span> <span class="n">TARDISAtomData</span><span class="p">(</span><span class="n">atomic_weights</span><span class="p">,</span>
+                           <span class="n">ionization_energies</span><span class="p">,</span>
+                           <span class="n">gfall_reader</span><span class="p">,</span>
+                           <span class="n">zeta_data</span><span class="p">,</span>
+                           <span class="n">chianti_reader</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[<span class="ansi-bold">    carsus.io.kurucz.gfall</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>] - Parsing GFALL: http://kurucz.harvard.edu/linelists/gfall/gfall.dat (<span class="ansi-bold">gfall.py</span>:139)
+[<span class="ansi-bold">     carsus.io.output.base</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>] - Ingesting levels from Chianti. (<span class="ansi-bold">base.py</span>:255)
+[<span class="ansi-bold">     carsus.io.output.base</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>] - Ingesting lines from GFALL. (<span class="ansi-bold">base.py</span>:327)
+[<span class="ansi-bold">    carsus.io.kurucz.gfall</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>] - Extracting line data: atomic_number, ion_charge, energy_lower, j_lower, energy_upper, j_upper, wavelength, loggf. (<span class="ansi-bold">gfall.py</span>:343)
+[<span class="ansi-bold">               py.warnings</span>][<span class="ansi-yellow-intense-fg ansi-bold">WARNING</span>] - /home/epassaro/Desktop/tardis-sn/carsus/carsus/io/output/base.py:121: PerformanceWarning: indexing past lexsort depth may impact performance.
+  [&#39;atomic_number&#39;, &#39;ion_number&#39;]).loc[ion]
+ (<span class="ansi-bold">warnings.py</span>:99)
+[<span class="ansi-bold">     carsus.io.output.base</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>] - Ingesting lines from Chianti. (<span class="ansi-bold">base.py</span>:352)
+[<span class="ansi-bold">               py.warnings</span>][<span class="ansi-yellow-intense-fg ansi-bold">WARNING</span>] - /home/epassaro/Desktop/tardis-sn/carsus/carsus/io/output/base.py:356: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  df[&#39;line_id&#39;] = range(start, len(df) + start)
+ (<span class="ansi-bold">warnings.py</span>:99)
+[<span class="ansi-bold">     carsus.io.output.base</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>] - Ingesting collisions from Chianti (<span class="ansi-bold">base.py</span>:499)
+</pre></div></div>
+</div>
+<p>Finally, dump the <code class="docutils literal notranslate"><span class="pre">atom_data</span></code> attributes to an HDF5 file.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">gfall_reader</span> <span class="o">=</span> <span class="n">GFALLReader</span><span class="p">(</span><span class="s1">&#39;gfall.dat&#39;</span><span class="p">)</span>
+<span></span><span class="n">atom_data</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s1">&#39;kurucz_cd23_chianti_H-He.h5&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -544,74 +617,156 @@ Downloading ionization energies from the NIST Atomic Spectra Database.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[<span class="ansi-bold">carsus.io.kurucz.gfall</span>][<span class="ansi-yellow-intense-fg ansi-bold">WARNING</span>]  A specific combination to identify unique levels from the gfall data has not been given. Defaulting to [&#34;energy&#34;, &#34;j&#34;]. (<span class="ansi-bold">gfall.py</span>:68)
+[<span class="ansi-bold">     carsus.io.output.base</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>] - Signing TARDISAtomData. (<span class="ansi-bold">base.py</span>:840)
+[<span class="ansi-bold">     carsus.io.output.base</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>] - MD5: 6768f2d24d992a326ea0b8da57296bc5 (<span class="ansi-bold">base.py</span>:841)
+[<span class="ansi-bold">     carsus.io.output.base</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>] - UUID1: 80e527ace25b11eaaa6bc83dd46c2c53 (<span class="ansi-bold">base.py</span>:842)
 </pre></div></div>
 </div>
-<p>Then create a <code class="docutils literal notranslate"><span class="pre">TARDISAtomData</span></code> object passing the <code class="docutils literal notranslate"><span class="pre">gfall_reader</span></code>, <code class="docutils literal notranslate"><span class="pre">ionization_energies</span></code> and the selected ions:</p>
-<div class="nbinput docutils container">
+</div>
+<div class="section" id="Reproducibility-and-metadata">
+<h2>Reproducibility and metadata<a class="headerlink" href="#Reproducibility-and-metadata" title="Permalink to this headline">¶</a></h2>
+<p>Carsus stores metadata inside the atomic files to ensure reproducibility. This metadata includes one checksum per <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> stored, versions of every dataset, and relevant package versions.</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">atom_data</span> <span class="o">=</span> <span class="n">TARDISAtomData</span><span class="p">(</span><span class="n">gfall_reader</span><span class="p">,</span>
-                           <span class="n">ionization_energies</span><span class="p">,</span>
-                           <span class="n">ions</span><span class="o">=</span><span class="s1">&#39;H-Zn&#39;</span><span class="p">)</span>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[<span class="ansi-bold">carsus.io.kurucz.gfall</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>   ]  Parsing GFALL gfall.dat (<span class="ansi-bold">gfall.py</span>:116)
-[<span class="ansi-bold">carsus.io.kurucz.gfall</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>   ]  Extracting line data: atomic_number, ion_charge, energy_lower, j_lower, energy_upper, j_upper, wavelength, loggf (<span class="ansi-bold">gfall.py</span>:292)
-</pre></div></div>
-</div>
-</div>
-</div>
-<div class="section" id="Zeta-data">
-<h2>Zeta data<a class="headerlink" href="#Zeta-data" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">zeta</span> <span class="o">=</span> <span class="n">KnoxLongZeta</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CARSUS_PATH</span><span class="p">,</span> <span class="s1">&#39;data/knox_long_recombination_zeta.dat&#39;</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">zeta</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="Output-HDF5-files">
-<h2>Output HDF5 files<a class="headerlink" href="#Output-HDF5-files" title="Permalink to this headline">¶</a></h2>
-<p>Finally, dump the <code class="docutils literal notranslate"><span class="pre">atom_data</span></code> object attributes to the HDF5 file.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">atom_data</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+<span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s1">&#39;kurucz_cd23_chianti_H-He.h5&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Signing AtomData:
-MD5: 37ee6b2bede07756ce9b02c48c4f79af
-UUID1: ded1cf20831d11eaaedac83dd46c2c53
-</pre></div></div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>value</th>
+    </tr>
+    <tr>
+      <th>field</th>
+      <th>key</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="9" valign="top">md5sum</th>
+      <th>atom_data</th>
+      <td>634785f05c4868f929c8</td>
+    </tr>
+    <tr>
+      <th>collision_data</th>
+      <td>3178077be6f242541c21</td>
+    </tr>
+    <tr>
+      <th>collision_data_temperatures</th>
+      <td>1b7075429ee24b944ed5</td>
+    </tr>
+    <tr>
+      <th>ionization_data</th>
+      <td>160807a3951b9bdfddf9</td>
+    </tr>
+    <tr>
+      <th>levels</th>
+      <td>92f24fe12437a83c5b4b</td>
+    </tr>
+    <tr>
+      <th>lines</th>
+      <td>5c076a2fe6cb9f590542</td>
+    </tr>
+    <tr>
+      <th>macro_atom_data</th>
+      <td>58a6eee3f36a8ba4ed69</td>
+    </tr>
+    <tr>
+      <th>macro_atom_references</th>
+      <td>1138f02c1725cf9f2164</td>
+    </tr>
+    <tr>
+      <th>zeta_data</th>
+      <td>f2496cec5c219dfb6d63</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">datasets</th>
+      <th>nist_weights</th>
+      <td>4.1</td>
+    </tr>
+    <tr>
+      <th>nist_spectra</th>
+      <td>5.7.1</td>
+    </tr>
+    <tr>
+      <th>gfall.dat</th>
+      <td>2704fbda0b8cba61bb70</td>
+    </tr>
+    <tr>
+      <th>chianti_data</th>
+      <td>9.0.1</td>
+    </tr>
+    <tr>
+      <th rowspan="8" valign="top">software</th>
+      <th>python</th>
+      <td>3.6.11</td>
+    </tr>
+    <tr>
+      <th>carsus</th>
+      <td>0.1.dev650</td>
+    </tr>
+    <tr>
+      <th>astropy</th>
+      <td>3.2.3</td>
+    </tr>
+    <tr>
+      <th>numpy</th>
+      <td>1.15.4</td>
+    </tr>
+    <tr>
+      <th>pandas</th>
+      <td>1.0.5</td>
+    </tr>
+    <tr>
+      <th>pyarrow</th>
+      <td>0.14.1</td>
+    </tr>
+    <tr>
+      <th>tables</th>
+      <td>3.6.1</td>
+    </tr>
+    <tr>
+      <th>ChiantiPy</th>
+      <td>0.8.4</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>GFALL &mdash; Carsus v</title>
+  <title>GFALL &mdash; Carsus v0.1.dev650</title>
   
 
   
@@ -44,7 +44,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="CHIANTI" href="chianti.html" />
-    <link rel="prev" title="Levels and lines" href="nist/levels_lines.html" /> 
+    <link rel="prev" title="NIST" href="nist.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -66,6 +66,10 @@
 
           
             
+            
+              <div class="version">
+                0.1.dev650
+              </div>
             
           
 
@@ -93,10 +97,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart for Carsus</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="datasets.html">Datasets</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="nist/index.html">NIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nist.html">NIST</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">GFALL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chianti.html">CHIANTI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cmfgen/index.html">CMFGEN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmfgen.html">CMFGEN</a></li>
 <li class="toctree-l2"><a class="reference internal" href="zeta.html">Knox Long’s zeta data</a></li>
 </ul>
 </li>
@@ -426,24 +430,13 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="GFALL">
 <h1>GFALL<a class="headerlink" href="#GFALL" title="Permalink to this headline">¶</a></h1>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>wget -q http://kurucz.harvard.edu/linelists/gfall/gfall.dat
-</pre></div>
-</div>
-</div>
-<p>Import the <code class="docutils literal notranslate"><span class="pre">GFALLReader</span></code> class and load the file.</p>
+<p>Import the <code class="docutils literal notranslate"><span class="pre">GFALLReader</span></code> class.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">carsus.io.kurucz</span> <span class="kn">import</span> <span class="n">GFALLReader</span>
-
-<span class="n">gfall_reader</span> <span class="o">=</span> <span class="n">GFALLReader</span><span class="p">(</span><span class="s1">&#39;gfall.dat&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -452,16 +445,35 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[<span class="ansi-bold">carsus.io.kurucz.gfall</span>][<span class="ansi-yellow-intense-fg ansi-bold">WARNING</span>]  A specific combination to identify unique levels from the gfall data has not been given. Defaulting to [&#34;energy&#34;, &#34;j&#34;]. (<span class="ansi-bold">gfall.py</span>:68)
+ ChiantiPy version 0.8.4
+ found PyQt5 widgets
+ using PyQt5 widgets
 </pre></div></div>
 </div>
-<p>Raw parsed file is stored in the <code class="docutils literal notranslate"><span class="pre">gfall_raw</span></code> attribute.</p>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">gfall.dat</span></code> is read directly from Harvard’s server.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">gfall_reader</span><span class="o">.</span><span class="n">gfall_raw</span>
+<span></span><span class="n">gfall_reader</span> <span class="o">=</span> <span class="n">GFALLReader</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[<span class="ansi-bold">    carsus.io.kurucz.gfall</span>][<span class="ansi-yellow-intense-fg ansi-bold">WARNING</span>] - A specific combination to identify unique levels from GFALL data has not been given. Defaulting to [&#34;energy&#34;, &#34;j&#34;]. (<span class="ansi-bold">gfall.py</span>:86)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">gfall_reader</span><span class="o">.</span><span class="n">gfall</span>
 </pre></div>
 </div>
 </div>
@@ -470,8 +482,334 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[<span class="ansi-bold">carsus.io.kurucz.gfall</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>   ]  Parsing GFALL gfall.dat (<span class="ansi-bold">gfall.py</span>:116)
+[<span class="ansi-bold">    carsus.io.kurucz.gfall</span>][<span class="ansi-white-intense-fg ansi-bold">INFO</span>] - Parsing GFALL: http://kurucz.harvard.edu/linelists/gfall/gfall.dat (<span class="ansi-bold">gfall.py</span>:139)
 </pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>wavelength</th>
+      <th>loggf</th>
+      <th>blank1</th>
+      <th>blank2</th>
+      <th>log_gamma_rad</th>
+      <th>log_gamma_stark</th>
+      <th>log_gamma_vderwaals</th>
+      <th>ref</th>
+      <th>isotope</th>
+      <th>log_f_hyperfine</th>
+      <th>...</th>
+      <th>hyperfine_f_lower</th>
+      <th>hyperfine_f_upper</th>
+      <th>hyperfine_note_lower</th>
+      <th>hyperfine_note_upper</th>
+      <th>lande_g_lower</th>
+      <th>lande_g_upper</th>
+      <th>energy_lower_predicted</th>
+      <th>energy_upper_predicted</th>
+      <th>atomic_number</th>
+      <th>ion_charge</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2.4898</td>
+      <td>-0.842</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>11.73</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>NBS</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>7</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.8787</td>
+      <td>-0.171</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>12.26</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>NBS</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>7</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.2682</td>
+      <td>-0.870</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>NBS</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>5</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>6.0313</td>
+      <td>-0.215</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>NBS</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>5</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6.1092</td>
+      <td>-5.150</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>DRA</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>5</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>564920</th>
+      <td>99694.5982</td>
+      <td>-1.886</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>8.23</td>
+      <td>-5.18</td>
+      <td>-7.48</td>
+      <td>K94</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1491.0</td>
+      <td>1355.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>26</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>564921</th>
+      <td>99713.4910</td>
+      <td>-4.028</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>8.73</td>
+      <td>-5.55</td>
+      <td>-7.52</td>
+      <td>K88</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1302.0</td>
+      <td>814.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>26</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>564922</th>
+      <td>99753.2890</td>
+      <td>0.529</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6.97</td>
+      <td>-2.60</td>
+      <td>-6.58</td>
+      <td>K88</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1000.0</td>
+      <td>0.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>20</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>564924</th>
+      <td>99768.2213</td>
+      <td>-3.114</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>8.33</td>
+      <td>-4.99</td>
+      <td>-7.49</td>
+      <td>K</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>489.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>22</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>564925</th>
+      <td>99962.7500</td>
+      <td>-2.878</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>7.67</td>
+      <td>-1.54</td>
+      <td>-6.46</td>
+      <td>K88</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1501.0</td>
+      <td>1000.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>20</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>563283 rows × 37 columns</p>
+</div></div>
+</div>
+<p>A raw version of the file is stored inside the <code class="docutils literal notranslate"><span class="pre">gfall_raw</span></code> attribute.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">gfall_reader</span><span class="o">.</span><span class="n">gfall_raw</span>
+</pre></div>
+</div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
@@ -641,606 +979,6 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
     </tr>
     <tr>
-      <th>5</th>
-      <td>6.3177</td>
-      <td>-2.360</td>
-      <td>15.05</td>
-      <td>0.000</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>2p6  1S</td>
-      <td>1582860.000</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>6.3450</td>
-      <td>-2.060</td>
-      <td>15.05</td>
-      <td>0.000</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>2p6  1S</td>
-      <td>1576040.000</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>6.6772</td>
-      <td>-0.790</td>
-      <td>14.05</td>
-      <td>0.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>2p5 *2P</td>
-      <td>1497630.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>6.9121</td>
-      <td>-1.940</td>
-      <td>15.05</td>
-      <td>0.000</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>2p6  1S</td>
-      <td>1446740.000</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>6.9204</td>
-      <td>-0.460</td>
-      <td>14.05</td>
-      <td>0.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>2p5 *2P</td>
-      <td>1445010.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>6.9236</td>
-      <td>-0.430</td>
-      <td>14.05</td>
-      <td>0.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>2p5 *2P</td>
-      <td>1444340.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>6.9448</td>
-      <td>-1.150</td>
-      <td>14.05</td>
-      <td>5090.000</td>
-      <td>0.5</td>
-      <td>NaN</td>
-      <td>2p5 *2P</td>
-      <td>1445010.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>6.9452</td>
-      <td>-1.640</td>
-      <td>15.05</td>
-      <td>0.000</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>2p6  1S</td>
-      <td>1439840.000</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>7.0928</td>
-      <td>-4.385</td>
-      <td>27.08</td>
-      <td>0.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>3d 2D</td>
-      <td>1409880.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>800.0</td>
-      <td>857.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>7.1052</td>
-      <td>-5.709</td>
-      <td>27.08</td>
-      <td>2451.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>3d 2D</td>
-      <td>1409880.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>1200.0</td>
-      <td>857.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>7.1052</td>
-      <td>-4.620</td>
-      <td>27.08</td>
-      <td>2451.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>3d 2D</td>
-      <td>1409880.000</td>
-      <td>3.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>1200.0</td>
-      <td>1143.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>7.1181</td>
-      <td>-0.260</td>
-      <td>14.05</td>
-      <td>0.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>2p5 *2P</td>
-      <td>1404870.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>7.1273</td>
-      <td>-2.520</td>
-      <td>14.05</td>
-      <td>0.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>2p5 *2P</td>
-      <td>1403050.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>7.1302</td>
-      <td>-1.530</td>
-      <td>14.05</td>
-      <td>0.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>2p5 *2P</td>
-      <td>1402490.000</td>
-      <td>0.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>7.1533</td>
-      <td>-0.510</td>
-      <td>14.05</td>
-      <td>5090.000</td>
-      <td>0.5</td>
-      <td>NaN</td>
-      <td>2p5 *2P</td>
-      <td>1403050.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>7.1561</td>
-      <td>-1.280</td>
-      <td>14.05</td>
-      <td>5090.000</td>
-      <td>0.5</td>
-      <td>NaN</td>
-      <td>2p5 *2P</td>
-      <td>1402490.000</td>
-      <td>0.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>7.2048</td>
-      <td>-6.587</td>
-      <td>27.08</td>
-      <td>0.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>3d 2D</td>
-      <td>1387960.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>800.0</td>
-      <td>857.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>7.2176</td>
-      <td>-6.706</td>
-      <td>27.08</td>
-      <td>2451.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>3d 2D</td>
-      <td>1387960.000</td>
-      <td>3.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>1200.0</td>
-      <td>1143.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>7.2176</td>
-      <td>-7.921</td>
-      <td>27.08</td>
-      <td>2451.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>3d 2D</td>
-      <td>1387960.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>1200.0</td>
-      <td>857.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>7.2239</td>
-      <td>-5.640</td>
-      <td>12.05</td>
-      <td>0.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>2p3 *4S</td>
-      <td>1384290.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>7.2239</td>
-      <td>-5.010</td>
-      <td>12.05</td>
-      <td>0.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>2p3 *4S</td>
-      <td>1384290.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>7.2318</td>
-      <td>-6.550</td>
-      <td>12.05</td>
-      <td>0.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>2p3 *4S</td>
-      <td>1382780.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>7.2851</td>
-      <td>-1.246</td>
-      <td>26.08</td>
-      <td>0.000</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>3p6 1S</td>
-      <td>1372670.000</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>1304.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>7.2891</td>
-      <td>-0.907</td>
-      <td>26.08</td>
-      <td>0.000</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>3p6 1S</td>
-      <td>1371910.000</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>1047.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>7.2896</td>
-      <td>-1.440</td>
-      <td>14.05</td>
-      <td>0.000</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>2p5 *2P</td>
-      <td>1371820.000</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
       <th>...</th>
       <td>...</td>
       <td>...</td>
@@ -1263,606 +1001,6 @@ div.rendered_html tbody tr:hover {
       <td>...</td>
       <td>...</td>
       <td>...</td>
-    </tr>
-    <tr>
-      <th>564956</th>
-      <td>155448.3860</td>
-      <td>2.554</td>
-      <td>1.00</td>
-      <td>109340.258</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109404.570</td>
-      <td>3.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564957</th>
-      <td>162929.8590</td>
-      <td>1.659</td>
-      <td>1.00</td>
-      <td>109503.281</td>
-      <td>9.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109564.641</td>
-      <td>10.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564958</th>
-      <td>166621.2380</td>
-      <td>1.824</td>
-      <td>1.00</td>
-      <td>109488.352</td>
-      <td>8.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109548.352</td>
-      <td>9.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564959</th>
-      <td>169379.3180</td>
-      <td>3.151</td>
-      <td>1.00</td>
-      <td>109191.313</td>
-      <td>14.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109250.336</td>
-      <td>15.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564960</th>
-      <td>171512.0110</td>
-      <td>2.268</td>
-      <td>1.00</td>
-      <td>109430.063</td>
-      <td>5.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109488.352</td>
-      <td>6.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564961</th>
-      <td>175776.2510</td>
-      <td>2.037</td>
-      <td>1.00</td>
-      <td>109471.438</td>
-      <td>7.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109528.313</td>
-      <td>8.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564962</th>
-      <td>181407.8690</td>
-      <td>2.627</td>
-      <td>1.00</td>
-      <td>109374.953</td>
-      <td>3.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109430.063</td>
-      <td>4.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564963</th>
-      <td>186456.5220</td>
-      <td>1.873</td>
-      <td>1.00</td>
-      <td>109503.281</td>
-      <td>9.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109556.898</td>
-      <td>10.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564964</th>
-      <td>195545.7080</td>
-      <td>2.325</td>
-      <td>1.00</td>
-      <td>109452.156</td>
-      <td>6.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109503.281</td>
-      <td>7.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564965</th>
-      <td>197904.5950</td>
-      <td>2.089</td>
-      <td>1.00</td>
-      <td>109488.352</td>
-      <td>8.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109538.867</td>
-      <td>9.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564966</th>
-      <td>204351.8220</td>
-      <td>3.232</td>
-      <td>1.00</td>
-      <td>109250.336</td>
-      <td>0.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109299.258</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564967</th>
-      <td>210088.8380</td>
-      <td>2.691</td>
-      <td>1.00</td>
-      <td>109404.570</td>
-      <td>4.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109452.156</td>
-      <td>5.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564968</th>
-      <td>221738.1930</td>
-      <td>2.380</td>
-      <td>1.00</td>
-      <td>109471.438</td>
-      <td>7.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109516.523</td>
-      <td>8.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564969</th>
-      <td>221815.0650</td>
-      <td>2.139</td>
-      <td>1.00</td>
-      <td>109503.281</td>
-      <td>9.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109548.352</td>
-      <td>10.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564970</th>
-      <td>241625.9650</td>
-      <td>2.752</td>
-      <td>1.00</td>
-      <td>109430.063</td>
-      <td>5.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109471.438</td>
-      <td>6.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564971</th>
-      <td>243835.9590</td>
-      <td>3.309</td>
-      <td>1.00</td>
-      <td>109299.258</td>
-      <td>1.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109340.258</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564972</th>
-      <td>250176.1700</td>
-      <td>2.433</td>
-      <td>1.00</td>
-      <td>109488.352</td>
-      <td>8.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109528.313</td>
-      <td>9.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564973</th>
-      <td>276203.5640</td>
-      <td>2.810</td>
-      <td>1.00</td>
-      <td>109452.156</td>
-      <td>6.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109488.352</td>
-      <td>7.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564974</th>
-      <td>280933.2840</td>
-      <td>2.483</td>
-      <td>1.00</td>
-      <td>109503.281</td>
-      <td>9.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109538.867</td>
-      <td>10.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564975</th>
-      <td>288144.8120</td>
-      <td>3.382</td>
-      <td>1.00</td>
-      <td>109340.258</td>
-      <td>2.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109374.953</td>
-      <td>3.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564976</th>
-      <td>313947.7700</td>
-      <td>2.866</td>
-      <td>1.00</td>
-      <td>109471.438</td>
-      <td>7.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109503.281</td>
-      <td>8.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564977</th>
-      <td>337549.7520</td>
-      <td>3.451</td>
-      <td>1.00</td>
-      <td>109374.953</td>
-      <td>3.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109404.570</td>
-      <td>4.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564978</th>
-      <td>354867.1970</td>
-      <td>2.920</td>
-      <td>1.00</td>
-      <td>109488.352</td>
-      <td>8.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109516.523</td>
-      <td>9.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564979</th>
-      <td>392170.1230</td>
-      <td>3.516</td>
-      <td>1.00</td>
-      <td>109404.570</td>
-      <td>4.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109430.063</td>
-      <td>5.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>564980</th>
-      <td>399391.7320</td>
-      <td>2.971</td>
-      <td>1.00</td>
-      <td>109503.281</td>
-      <td>9.5</td>
-      <td>NaN</td>
-      <td>AVERAGE</td>
-      <td>109528.313</td>
-      <td>10.5</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
     </tr>
     <tr>
       <th>564981</th>
@@ -1989,15 +1127,38 @@ div.rendered_html tbody tr:hover {
 <p>564986 rows × 34 columns</p>
 </div></div>
 </div>
-<p>Dump the data with the <code class="docutils literal notranslate"><span class="pre">to_hdf</span></code> method.</p>
-<div class="nbinput nblast docutils container">
+<p>Dump data with method <code class="docutils literal notranslate"><span class="pre">to_hdf</span></code>.</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">gfall_reader</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s1">&#39;gfall.h5&#39;</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span></span><span class="n">gfall_reader</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s1">&#39;gfall.h5&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[<span class="ansi-bold">               py.warnings</span>][<span class="ansi-yellow-intense-fg ansi-bold">WARNING</span>] - /home/epassaro/miniconda3/envs/carsus/lib/python3.6/site-packages/IPython/core/interactiveshell.py:3343: PerformanceWarning:
+your performance may suffer as PyTables will pickle object types that it cannot
+map directly to c-types [inferred_type-&gt;mixed,key-&gt;block1_values] [items-&gt;Index([&#39;label_first&#39;, &#39;label_second&#39;, &#39;ref&#39;, &#39;blank3&#39;, &#39;hyperfine_note_first&#39;,
+       &#39;blank4&#39;, &#39;line_code&#39;],
+      dtype=&#39;object&#39;)]
+
+  exec(code_obj, self.user_global_ns, self.user_ns)
+ (<span class="ansi-bold">warnings.py</span>:99)
+[<span class="ansi-bold">               py.warnings</span>][<span class="ansi-yellow-intense-fg ansi-bold">WARNING</span>] - /home/epassaro/miniconda3/envs/carsus/lib/python3.6/site-packages/IPython/core/interactiveshell.py:3343: PerformanceWarning:
+your performance may suffer as PyTables will pickle object types that it cannot
+map directly to c-types [inferred_type-&gt;mixed,key-&gt;block3_values] [items-&gt;Index([&#39;ref&#39;, &#39;blank3&#39;, &#39;blank4&#39;, &#39;line_code&#39;, &#39;label_lower&#39;, &#39;label_upper&#39;,
+       &#39;hyperfine_note_lower&#39;, &#39;hyperfine_note_upper&#39;],
+      dtype=&#39;object&#39;)]
+
+  exec(code_obj, self.user_global_ns, self.user_ns)
+ (<span class="ansi-bold">warnings.py</span>:99)
+</pre></div></div>
 </div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
@@ -2014,7 +1175,7 @@ div.rendered_html tbody tr:hover {
         <a href="chianti.html" class="btn btn-neutral float-right" title="CHIANTI" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="nist/levels_lines.html" class="btn btn-neutral float-left" title="Levels and lines" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="nist.html" class="btn btn-neutral float-left" title="NIST" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
