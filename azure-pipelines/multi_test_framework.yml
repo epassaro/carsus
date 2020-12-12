@@ -60,8 +60,8 @@ jobs:
 
       - bash: |
           mkdir -p $XUVTOP
-          wget $CHIANTI_DATA_URL -O $XUVTOP/CHIANTI_9.0.1_data.tar.gz
-          tar -zxvf $XUVTOP/CHIANTI_9.0.1_data.tar.gz -C $XUVTOP
+          wget $CHIANTI_DATA_URL -O $XUVTOP/CHIANTI_v9.0.1_database.tar.gz
+          tar -zxvf $XUVTOP/CHIANTI_v9.0.1_database.tar.gz -C $XUVTOP
         displayName: "Fetch Chianti database"
 
       - bash: |
