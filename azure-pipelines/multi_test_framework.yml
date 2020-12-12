@@ -6,7 +6,7 @@ variables:
   build.dir: $(Agent.BuildDirectory)
   carsus.db.url: "https://github.com/tardis-sn/carsus-db.git"
   carsus.refdata.url: "https://github.com/tardis-sn/carsus-refdata.git"
-  chianti.data.url: "http://www.chiantidatabase.org/download/CHIANTI_9.0.1_data.tar.gz"
+  chianti.data.url: "https://download.chiantidatabase.org/CHIANTI_v9.0.1_database.tar.gz"
   xuvtop: "$(build.dir)/chianti"
   codecov.token: "bd02b09d-d24f-45a3-8c0b-25eec64a29e7"
   system.debug: "false"
