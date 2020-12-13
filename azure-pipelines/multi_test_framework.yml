@@ -8,7 +8,7 @@ variables:
   carsus.refdata.url: "https://github.com/tardis-sn/carsus-refdata.git"
   chianti.data.url: "https://download.chiantidatabase.org"
   chianti.db.version: "9.0.1"
-  chianti.db.url: "$(chianti.data.url)/CHIANTI_$(chianti.db.version)_database.tar.gz"
+  chianti.db.url: "$(chianti.data.url)/CHIANTI_v$(chianti.db.version)_database.tar.gz"
   xuvtop: "$(build.dir)/chianti"
   codecov.token: "bd02b09d-d24f-45a3-8c0b-25eec64a29e7"
   system.debug: "false"
@@ -26,7 +26,7 @@ jobs:
 
         remote_data:
           SETUP_CMD: "--remote-data"
-          TEST_MODE: "remote_data"
+          TEST_MODE: "remote data"
 
         runslow:
           SETUP_CMD: "--runslow"
