@@ -14,7 +14,7 @@ variables:
   system.debug: "false"
 
 jobs:
-  - job: "Test"
+  - job:
     pool:
       vmImage: "ubuntu-latest"
 
