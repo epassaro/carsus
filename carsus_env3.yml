@@ -13,6 +13,7 @@ dependencies:
   - pip
 
   # I/O
+  - requests
   - beautifulsoup4
   - pyparsing=2.2
   - html5lib
@@ -44,7 +45,7 @@ dependencies:
   - pytest-cov
   - pytest-astropy
   - coverage
-  - requests
+  - nbval
 
   # ChiantiPy dependencies
   - scipy
