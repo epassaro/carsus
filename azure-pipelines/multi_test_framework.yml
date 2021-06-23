@@ -84,10 +84,10 @@ jobs:
           pytest carsus --remote-data --runslow --test-db=$(carsus.db)/test_databases/test.db --refdata=$(carsus.refdata) --cov=carsus --cov-report=xml --cov-report=html
         displayName: 'Run tests (coverage)'
 
-      #- bash: |
-      #    source activate carsus
-      #    pytest carsus --ignore-glob="**/*.py" --nb-test-files --nb-exec-timeout 600 
-      #  displayName: 'Run tests (notebooks)'
+      - bash: |
+          source activate carsus
+          pytest carsus --ignore-glob="**/*.py" --nb-test-files --nb-exec-timeout 600 
+        displayName: 'Run tests (notebooks)'
 
       - bash: bash <(curl -s https://codecov.io/bash)
         displayName: 'Upload to codecov.io'
