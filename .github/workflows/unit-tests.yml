@@ -84,7 +84,7 @@ jobs:
         if: steps.chianti-cache.outputs.cache-hit != 'true'
 
       - name: Get cache number
-        run: echo "::set-output name=number::$(date +'%j')"
+        run: echo "::set-output name=day::$(date +'%j')"
         id: cache-number
 
       - uses: actions/cache@v2
@@ -92,7 +92,7 @@ jobs:
           path: /usr/share/miniconda/condabin
           key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
         env:
-          CACHE_NUMBER: ${{ steps.cache-number.outputs.number }}
+          CACHE_NUMBER: ${{ steps.cache-number.outputs.day }}
         id: conda-cache
 
       - name: Setup environment
