@@ -95,20 +95,16 @@ jobs:
         run: echo "::set-output name=day::$(date +'%j')"
         id: cache-number
 
-      - name: Fix for conda cache
-        run: sudo chown -R $USER /usr/share/miniconda3
-        if: steps.conda.outputs.cache-hit == 'true'
-
       - uses: actions/cache@v2
         with:
           path: /usr/share/miniconda3/envs/carsus
           key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
         env:
-          CACHE_NUMBER: 5 # ${{ steps.cache-number.outputs.day }}
+          CACHE_NUMBER: 6 # ${{ steps.cache-number.outputs.day }}
         id: conda-cache
 
       - name: Setup environment
-        run: mamba env update --name carsus --file carsus_env3.yml
+        run: conda env update --name carsus --file carsus_env3.yml
         if: steps.conda-cache.outputs.cache-hit != 'true'
 
       - name: Install package
