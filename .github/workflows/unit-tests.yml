@@ -91,15 +91,7 @@ jobs:
         run: sudo chown -R $USER /usr/share/miniconda/envs/carsus
         if: steps.conda.outputs.cache-hit == 'true'
 
-      - uses: actions/cache@v2
-        with:
-          path: /usr/share/miniconda/envs/carsus
-          key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
-        env:
-          CACHE_NUMBER: 0 # ${{ steps.cache-number.outputs.day }}
-        id: conda-cache
-
-      - name: Setup environment
+      - name: Setup Miniconda
         uses: conda-incubator/setup-miniconda@v2
         with:
             miniforge-variant: Mambaforge
@@ -107,6 +99,14 @@ jobs:
             activate-environment: carsus
             use-mamba: true
         if: steps.conda-cache.outputs.cache-hit == 'true'
+
+      - uses: actions/cache@v2
+        with:
+          path: /usr/share/miniconda/envs/carsus
+          key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
+        env:
+          CACHE_NUMBER: 0 # ${{ steps.cache-number.outputs.day }}
+        id: conda-cache
 
       - name: Setup environment
         uses: conda-incubator/setup-miniconda@v2
