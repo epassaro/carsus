@@ -105,8 +105,10 @@ jobs:
           path: /usr/share/miniconda/envs/carsus
           key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
         env:
-          CACHE_NUMBER: 1 # ${{ steps.cache-number.outputs.day }}
+          CACHE_NUMBER: 2 # ${{ steps.cache-number.outputs.day }}
         id: conda-cache
+
+      - run: ls -R /usr/share/miniconda
 
       - name: Setup environment
         uses: conda-incubator/setup-miniconda@v2
