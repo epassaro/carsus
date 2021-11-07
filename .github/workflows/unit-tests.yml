@@ -97,12 +97,12 @@ jobs:
         if: steps.conda-cache.outputs.cache-hit == 'true'
 
       - name: Fix for conda cache
-        run: sudo rm -rf /usr/share/miniconda/envs/carsus
+        run: sudo rm -rf /usr/share/miniconda3/envs/carsus
         if: steps.conda.outputs.cache-hit == 'true'
 
       - uses: actions/cache@v2
         with:
-          path: /usr/share/miniconda/envs/carsus
+          path: /usr/share/miniconda3/envs/carsus
           key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
         env:
           CACHE_NUMBER: 4 # ${{ steps.cache-number.outputs.day }}
@@ -117,8 +117,6 @@ jobs:
             activate-environment: carsus
             use-mamba: true
         if: steps.conda-cache.outputs.cache-hit != 'true'
-
-      - run: mamba env list
 
       - name: Install package
         run: pip install -e .
