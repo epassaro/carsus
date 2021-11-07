@@ -87,9 +87,12 @@ jobs:
         run: echo "::set-output name=day::$(date +'%j')"
         id: cache-number
 
+      - name: Fix for conda cache
+        run: sudo chown -R $USER /usr/share/miniconda/envs/carsus
+
       - uses: actions/cache@v2
         with:
-          path: /usr/share/miniconda/condabin
+          path: /usr/share/miniconda/envs/carsus
           key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
         env:
           CACHE_NUMBER: ${{ steps.cache-number.outputs.day }}
