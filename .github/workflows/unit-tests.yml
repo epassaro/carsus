@@ -87,10 +87,6 @@ jobs:
         run: echo "::set-output name=day::$(date +'%j')"
         id: cache-number
 
-      - name: Fix for conda cache
-        run: sudo chown -R $USER /usr/share/miniconda/envs/carsus
-        if: steps.conda.outputs.cache-hit == 'true'
-
       - name: Setup Miniconda
         uses: conda-incubator/setup-miniconda@v2
         with:
@@ -99,6 +95,10 @@ jobs:
             activate-environment: carsus
             use-mamba: true
         if: steps.conda-cache.outputs.cache-hit == 'true'
+
+      - name: Fix for conda cache
+        run: sudo rm -rf /usr/share/miniconda/envs/carsus
+        if: steps.conda.outputs.cache-hit == 'true'
 
       - uses: actions/cache@v2
         with:
