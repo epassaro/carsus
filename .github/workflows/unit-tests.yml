@@ -50,25 +50,23 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Clone tardis-sn/carsus-db
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           repository: tardis-sn/carsus-db
           path: carsus-db
           lfs: false
+
+      - uses: actions/checkout@v2
+        with:
+          repository: tardis-sn/carsus-refdata
+          path: carsus-refdata
+          lfs: true
 
       - name: Pull test database
         run: |
           cd carsus-db
           git lfs install --skip-smudge
           git lfs pull --include="test_databases/test.db"
-
-      - name: Clone tardis-sn/carsus-refdata
-        uses: actions/checkout@v2
-        with:
-          repository: tardis-sn/carsus-refdata
-          path: carsus-refdata
-          lfs: true
 
       - uses: actions/cache@v2
         with:
@@ -103,8 +101,8 @@ jobs:
           CACHE_NUMBER: 6 # ${{ steps.cache-number.outputs.day }}
         id: conda-cache
 
-      - name: Setup environment
-        run: conda env update --name carsus --file carsus_env3.yml
+      - name: Update environment
+        run: mamba env update -n carsus -f carsus_env3.yml
         if: steps.conda-cache.outputs.cache-hit != 'true'
 
       - name: Install package
