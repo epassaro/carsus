@@ -89,6 +89,7 @@ jobs:
 
       - name: Fix for conda cache
         run: sudo chown -R $USER /usr/share/miniconda/envs/carsus
+        if: steps.conda.outputs.cache-hit == 'true'
 
       - uses: actions/cache@v2
         with:
