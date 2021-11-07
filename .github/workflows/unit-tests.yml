@@ -104,6 +104,15 @@ jobs:
         with:
             miniforge-variant: Mambaforge
             miniforge-version: latest
+            activate-environment: carsus
+            use-mamba: true
+        if: steps.conda-cache.outputs.cache-hit == 'true'
+
+      - name: Setup environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+            miniforge-variant: Mambaforge
+            miniforge-version: latest
             environment-file: carsus_env3.yml
             activate-environment: carsus
             use-mamba: true
