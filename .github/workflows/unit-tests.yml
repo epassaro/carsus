@@ -83,10 +83,6 @@ jobs:
             tar -zxf ${{ env.XUVTOP }}/chianti.tar.gz -C ${{ env.XUVTOP }}
         if: steps.chianti-cache.outputs.cache-hit != 'true'
 
-      - name: Get cache number
-        run: echo "::set-output name=day::$(date +'%j')"
-        id: cache-number
-
       - name: Setup Miniconda
         uses: conda-incubator/setup-miniconda@v2
         with:
@@ -94,10 +90,13 @@ jobs:
             miniforge-version: latest
             activate-environment: carsus
             use-mamba: true
-        if: steps.conda-cache.outputs.cache-hit == 'true'
+
+      - name: Get cache number
+        run: echo "::set-output name=day::$(date +'%j')"
+        id: cache-number
 
       - name: Fix for conda cache
-        run: sudo rm -rf /usr/share/miniconda3/envs/carsus
+        run: sudo chown -R $USER /usr/share/miniconda3
         if: steps.conda.outputs.cache-hit == 'true'
 
       - uses: actions/cache@v2
@@ -105,17 +104,11 @@ jobs:
           path: /usr/share/miniconda3/envs/carsus
           key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
         env:
-          CACHE_NUMBER: 4 # ${{ steps.cache-number.outputs.day }}
+          CACHE_NUMBER: 5 # ${{ steps.cache-number.outputs.day }}
         id: conda-cache
 
       - name: Setup environment
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-            miniforge-variant: Mambaforge
-            miniforge-version: latest
-            environment-file: carsus_env3.yml
-            activate-environment: carsus
-            use-mamba: true
+        run: mamba env update --name carsus --file carsus_env3.yml
         if: steps.conda-cache.outputs.cache-hit != 'true'
 
       - name: Install package
