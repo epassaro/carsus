@@ -86,7 +86,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: /usr/share/miniconda/condabin
-          key: ${{ runner.os }}-condabin-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
+          key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
           env:
             CACHE_NUMBER: 0
         id: conda-cache
@@ -99,6 +99,7 @@ jobs:
             environment-file: carsus_env3.yml
             activate-environment: carsus
             use-mamba: true
+        if: steps.conda-cache.outputs.cache-hit != 'true'
 
       - name: Install package
         run: pip install -e .
