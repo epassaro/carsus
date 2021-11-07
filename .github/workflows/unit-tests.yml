@@ -105,7 +105,7 @@ jobs:
           path: /usr/share/miniconda/envs/carsus
           key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
         env:
-          CACHE_NUMBER: 3 # ${{ steps.cache-number.outputs.day }}
+          CACHE_NUMBER: 4 # ${{ steps.cache-number.outputs.day }}
         id: conda-cache
 
       - name: Setup environment
@@ -118,7 +118,7 @@ jobs:
             use-mamba: true
         if: steps.conda-cache.outputs.cache-hit != 'true'
 
-      - run: ls -R /usr/share/miniconda
+      - run: mamba env list
 
       - name: Install package
         run: pip install -e .
