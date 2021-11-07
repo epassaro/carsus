@@ -105,7 +105,7 @@ jobs:
           path: /usr/share/miniconda/envs/carsus
           key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
         env:
-          CACHE_NUMBER: 0 # ${{ steps.cache-number.outputs.day }}
+          CACHE_NUMBER: 1 # ${{ steps.cache-number.outputs.day }}
         id: conda-cache
 
       - name: Setup environment
