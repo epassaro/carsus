@@ -7,7 +7,7 @@ name: tests
 on:
   push:
     branches:
-    - master
+    - '*'
 
   pull_request:
     branches:
@@ -82,6 +82,14 @@ jobs:
             wget -q ${{ env.CHIANTI_DL_URL }}/${{ env.CHIANTI_DB_VER }} -O ${{ env.XUVTOP }}/chianti.tar.gz
             tar -zxf ${{ env.XUVTOP }}/chianti.tar.gz -C ${{ env.XUVTOP }}
         if: steps.chianti-cache.outputs.cache-hit != 'true'
+
+      - uses: actions/cache@v2
+        with:
+          path: /usr/share/miniconda/condabin
+          key: ${{ runner.os }}-condabin-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
+          env:
+            CACHE_NUMBER: 0
+        id: conda-cache
 
       - name: Setup environment
         uses: conda-incubator/setup-miniconda@v2
