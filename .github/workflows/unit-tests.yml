@@ -7,7 +7,7 @@ name: tests
 on:
   push:
     branches:
-    - '*'
+    - master
 
   pull_request:
     branches:
@@ -119,13 +119,13 @@ jobs:
 
       - name: Run unit tests
         run: pytest carsus -n ${{ env.PYTEST_CORES }} ${{ env.PYTEST_FLAGS }}
-#
-#      - name: Run notebook tests
-#        run: pytest carsus -n ${{ env.PYTEST_CORES }} ${{ env.PYTEST_NB_FLAGS }}
-#        env:
-#          CARSUS_REFDATA: ${{ github.workspace }}/carsus-refdata
-#        if: runner.os == 'Linux'
-#
-#      - name: Upload to codecov.io
-#        run: bash <(curl -s https://codecov.io/bash)
-#        if: runner.os == 'Linux'
+
+      - name: Run notebook tests
+        run: pytest carsus -n ${{ env.PYTEST_CORES }} ${{ env.PYTEST_NB_FLAGS }}
+        env:
+          CARSUS_REFDATA: ${{ github.workspace }}/carsus-refdata
+        if: runner.os == 'Linux'
+
+      - name: Upload to codecov.io
+        run: bash <(curl -s https://codecov.io/bash)
+        if: runner.os == 'Linux'
