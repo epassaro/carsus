@@ -56,17 +56,16 @@ jobs:
           path: carsus-db
           lfs: false
 
+      - run: |
+          cd carsus-db
+          git lfs install --skip-smudge
+          git lfs pull --include="test_databases/test.db"
+
       - uses: actions/checkout@v2
         with:
           repository: tardis-sn/carsus-refdata
           path: carsus-refdata
           lfs: true
-
-      - name: Pull test database
-        run: |
-          cd carsus-db
-          git lfs install --skip-smudge
-          git lfs pull --include="test_databases/test.db"
 
       - uses: actions/cache@v2
         with:
