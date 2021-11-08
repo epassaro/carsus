@@ -39,7 +39,7 @@ jobs:
         include:
           - os: ubuntu-latest
             label: Linux
-            prefix: /usr/share/miniconda/envs/carsus
+            prefix: /usr/share/miniconda3/envs/carsus
 
           - os: macos-latest
             label: macOS
