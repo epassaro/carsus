@@ -96,7 +96,7 @@ jobs:
             use-mamba: true
 
       - name: Set cache number
-        run: echo "::set-output name=day::$(date +%d%m%H')"
+        run: echo "::set-output number=::$(date +'%d%m%H')"
         id: cache-number
 
       - uses: actions/cache@v2
@@ -104,7 +104,7 @@ jobs:
           path: ${{ matrix.prefix }}
           key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
         env:
-          CACHE_NUMBER: ${{ steps.cache-number.outputs.day }}
+          CACHE_NUMBER: ${{ steps.cache-number.outputs.number }}
         id: conda-cache
 
       - name: Update environment
