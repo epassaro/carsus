@@ -36,14 +36,17 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest] #, macos-latest]
+        include:
+          - os: ubuntu-latest
+            label: linux
+            prefix: ${{ matrix.prefix }}
 
     defaults:
       run:
         shell: bash -l {0}
 
+    name: ${{ matrix.label }}
     runs-on: ${{ matrix.os }}
-
     steps:
 
       - uses: actions/checkout@v2
@@ -94,7 +97,7 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: /usr/share/miniconda3/envs/carsus
+          path: ${{ matrix.prefix }}
           key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
         env:
           CACHE_NUMBER: 6 # ${{ steps.cache-number.outputs.day }}
