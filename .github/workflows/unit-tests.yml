@@ -96,7 +96,7 @@ jobs:
             use-mamba: true
 
       - name: Set cache number
-        run: echo "::set-output number=::$(date +'%d%m%H')"
+        run: echo "::set-output name=number::$(date +'%d%m')"
         id: cache-number
 
       - uses: actions/cache@v2
