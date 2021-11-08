@@ -43,6 +43,10 @@ jobs:
         contains(github.event.head_commit.message, '[build doc]') ||
         contains(github.event.head_commit.message, '[build_doc]')
 
+    defaults:
+      run:
+        shell: bash -l {0}
+
     runs-on: ubuntu-latest
     steps:
 
@@ -75,21 +79,34 @@ jobs:
             tar -zxf /tmp/atomic.tar.gz -C /tmp
         if: steps.cmfgen-cache.outputs.cache-hit != 'true'
 
-      - name: Setup environment
+      - name: Setup Miniconda
         uses: conda-incubator/setup-miniconda@v2
         with:
             miniforge-variant: Mambaforge
             miniforge-version: latest
-            environment-file: carsus_env3.yml
             activate-environment: carsus
             use-mamba: true
 
+      - name: Set cache number
+        run: echo "::set-output name=number::$(date +'%d%m')"
+        id: cache-number
+
+      - uses: actions/cache@v2
+        with:
+          path: /usr/share/miniconda3/envs/carsus
+          key: ${{ runner.os }}-conda-${{ hashFiles('carsus_env3.yml') }}-${{ env.CACHE_NUMBER }}
+        env:
+          CACHE_NUMBER: ${{ steps.cache-number.outputs.number }}
+        id: conda-cache
+
+      - name: Update environment
+        run: mamba env update -n carsus -f carsus_env3.yml
+        if: steps.conda-cache.outputs.cache-hit != 'true'
+
       - name: Install package
-        shell: bash -l {0}
         run: pip install -e .
 
       - name: Build documentation
-        shell: bash -l {0}
         run: cd docs/; make html
 
       - uses: actions/upload-artifact@v2
