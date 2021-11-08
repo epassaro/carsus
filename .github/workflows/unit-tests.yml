@@ -39,7 +39,7 @@ jobs:
         include:
           - os: ubuntu-latest
             label: linux
-            prefix: ${{ matrix.prefix }}
+            prefix: /usr/share/miniconda/envs/carsus
 
     defaults:
       run:
