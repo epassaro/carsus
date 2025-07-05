@@ -54,6 +54,7 @@ def download_ionization_energies(
             'unc_out': unc_out, 'biblio': biblio}
 
     data = {k: v for k, v in data.items() if v is not False}
+    data = {k: "on" if v is True else v for k, v in data.items()}
 
     print("Downloading ionization energies from the NIST Atomic Spectra Database.")
     r = requests.post(IONIZATION_ENERGIES_URL, data=data)
@@ -82,7 +83,7 @@ class NISTIonizationEnergiesParser(BaseParser):
         soup = BeautifulSoup(input_data, 'html5lib')
         pre_tag = soup.pre
         for a in pre_tag.find_all("a"):
-            a = a.sting
+            a = a.string
         text_data = pre_tag.get_text()
         processed_text_data = ''
         for line in text_data.split('\n')[2:]:

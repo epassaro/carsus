@@ -1,4 +1,4 @@
-name: carsus
+name: carsus-gsoc20
 
 channels:
     - conda-forge
