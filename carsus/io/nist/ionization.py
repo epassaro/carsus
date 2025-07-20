@@ -53,6 +53,7 @@ def download_ionization_energies(
             'unc_out': unc_out, 'biblio': biblio}
 
     data = {k: v for k, v in data.iteritems() if v is not False}
+    data = {k:"on" if v is True else v for k, v in data.items()}
 
     print "Downloading ionization energies from the NIST Atomic Spectra Database"
     r = requests.post(IONIZATION_ENERGIES_URL, data=data)
