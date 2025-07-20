@@ -17,14 +17,14 @@ weightscomp_ingester.ingest()
 session.commit()
 
 # Ionization energies and ground levels (NIST)
-#ioniz_energies_ingester = NISTIonizationEnergiesIngester(session, spectra="Si")
-#ioniz_energies_ingester.ingest(ionization_energies=True, ground_levels=True)
-#session.commit()
+ioniz_energies_ingester = NISTIonizationEnergiesIngester(session, spectra="Si")
+ioniz_energies_ingester.ingest(ionization_energies=True, ground_levels=True)
+session.commit()
 
 # H-Zn levels and lines (Kurucz)
-#gfall_ingester = GFALLIngester(session, fname="./docs/gfall.dat", ions="H-Zn")
-#gfall_ingester.ingest(levels=True, lines=False)
-#session.commit()
+gfall_ingester = GFALLIngester(session, fname="./docs/gfall.dat", ions="H-Zn")
+gfall_ingester.ingest(levels=True, lines=False)
+session.commit()
 
 # Si I-II levels and lines (Chianti)
 #chianti_ingester = ChiantiIngester(session, ions="Si 1-2")
@@ -36,4 +36,12 @@ zeta_ingester = KnoxLongZetaIngester(session, './carsus/data/knox_long_recombina
 zeta_ingester.ingest()
 session.commit()
 
-atom_data = AtomData(session, selected_atoms="Si", chianti_short_name='chianti_v9.0', chianti_ions="Si 1-2")z
+atom_data = AtomData(session, selected_atoms="H-Zn")#, chianti_short_name='chianti_v9.0', chianti_ions="Si 1-2")
+atom_data.to_hdf("example_store.h5", 
+                 store_atom_masses=True, 
+                 store_ionization_energies=True, 
+                 store_levels=True, 
+                 store_lines=True,
+                 #store_collisions=True,
+                 store_macro_atom=True)
+                 #store_zeta_data=True)
