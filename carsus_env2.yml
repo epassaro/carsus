@@ -1,0 +1,40 @@
+name: carsus-2017
+
+channels:
+  - conda-forge
+
+variables:
+  HDF5_DIR: ${CONDA_PREFIX:-$MAMBA_ROOT_PREFIX}/envs/carsus-2017/
+
+dependencies:
+  # Build deps
+  - compilers  =1.0
+  - Cython     =0.27
+  - hdf5       =1.8
+  - libxcrypt  =4.4
+  - py-cpuinfo =8.0
+
+  # Runtime dependencies (conda)
+  - python     =2.7
+  - pip
+  - numpy      =1.10
+  - PyYAML     =3.11
+  - SQLAlchemy =1.0
+  - requests   =2.9
+  - pyparsing  =2.1
+  - pytest     =3.2
+
+  # More untime dependencies (PyPI)
+  - pip:
+    - astropy==2.0.16
+    - pandas==0.16.2
+    - tables==3.2.3.1
+    - numexpr==2.5.2
+    - uncertainties==3.0.3
+    - beautifulsoup4==4.4.1
+    - html5lib<=0.9999999
+    # ChiantiPy and its dependencies
+    - git+https://github.com/chianti-atomic/ChiantiPy.git@0.7.0
+    - scipy==0.18.1
+    - matplotlib==2.1.2
+    - ipyparallel==6.0.2
