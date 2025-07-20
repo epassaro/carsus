@@ -16,10 +16,10 @@ from ._astropy_init import *
 
 import logging, sys
 from .base import init_db
-from tardis.util.colored_logger import ColoredFormatter, formatter_message
+#from tardis.util.colored_logger import ColoredFormatter, formatter_message
 
 FORMAT = "[$BOLD%(name)-20s$RESET][%(levelname)-18s]  %(message)s ($BOLD%(filename)s$RESET:%(lineno)d)"
-COLOR_FORMAT = formatter_message(FORMAT, True)
+#COLOR_FORMAT = formatter_message(FORMAT, True)
 
 
 logging.captureWarnings(True)
@@ -27,7 +27,7 @@ logger = logging.getLogger('carsus')
 logger.setLevel(logging.INFO)
 
 console_handler = logging.StreamHandler(sys.stdout)
-console_formatter = ColoredFormatter(COLOR_FORMAT)
-console_handler.setFormatter(console_formatter)
+#console_formatter = ColoredFormatter(COLOR_FORMAT)
+#console_handler.setFormatter(console_formatter)
 logger.addHandler(console_handler)
 logging.getLogger('py.warnings').addHandler(console_handler)
