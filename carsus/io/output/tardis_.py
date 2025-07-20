@@ -520,7 +520,7 @@ class AtomData(object):
         if levels.g.isnull().any():
             print ("Some of the ground state g-values are not available."
                     " This is likely because very heavy elements are included"
-                    "and is not unusual. They will be omitted from these
+                    "and is not unusual. They will be omitted from these"
                     "calculations")
             levels = levels.loc[~levels.g.isnull()]
         if levels.isnull().any().any():
